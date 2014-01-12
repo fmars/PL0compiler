@@ -1,0 +1,11 @@
+var x,y,z,t:integer;
+begin
+  x:=x;
+  y:=y;
+  x:=1;
+  x:=2;
+  x:=x+3;
+  y:=x;
+  write("x=",x);
+  write("y=",y);
+end.

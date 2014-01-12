@@ -1,0 +1,100 @@
+	.386
+	.model flat, stdcall  ; 32 bit memory model
+	option casemap :none  ; case sensitive
+	include \masm32\include\io32.inc 
+.data
+	_mstr1 byte "z=",0
+	_mstr2 byte "t=",0
+.code
+
+;BEGIN
+_main PROC
+	PUSH ebp
+	MOV ebp,esp
+	MOV [esp+8],ebp
+	SUB esp,80
+	PUSH ebx
+	PUSH esi
+	PUSH edi
+
+;READ x
+	MOV edx,[ebp+8]
+	SUB edx,4
+	ReadSDecDword [edx]
+
+;READ y
+	MOV edx,[ebp+8]
+	SUB edx,8
+	ReadSDecDword [edx]
+
+;BEC y y
+	MOV eax,[ebp+8]
+	MOV eax,[eax-8]
+	MOV edx,[ebp+8]
+	SUB edx,8
+	MOV [edx],eax
+
+;BEC x x
+	MOV eax,[ebp+8]
+	MOV eax,[eax-4]
+	MOV edx,[ebp+8]
+	SUB edx,4
+	MOV [edx],eax
+
+;CALC  2
+	MOV eax,[ebp+8]
+	MOV eax,[eax-4]
+	MOV edx,[ebp+8]
+	MOV edx,[edx-8]
+	IMUL edx
+	MOV edx,[ebp+8]
+	SUB edx,16
+	MOV [edx],eax
+
+;CALC  0
+	MOV eax,[ebp+8]
+	MOV eax,[eax-4]
+	MOV edx,[ebp+8]
+	MOV edx,[edx-8]
+	ADD eax,edx
+	MOV edx,ebp
+	SUB edx,20
+	MOV [edx],eax
+
+;CALC  0
+	MOV eax,[ebp-20]
+	MOV edx,[ebp+8]
+	MOV edx,[edx-16]
+	ADD eax,edx
+	MOV edx,[ebp+8]
+	SUB edx,12
+	MOV [edx],eax
+
+;WRITE
+	WriteString _mstr1
+	MOV edx,[ebp+8]
+	SUB edx,12
+	WriteSDecDword [edx]
+
+;BEC t t
+	MOV eax,[ebp+8]
+	MOV eax,[eax-16]
+	MOV edx,[ebp+8]
+	SUB edx,16
+	MOV [edx],eax
+
+;WRITE
+	WriteString _mstr2
+	MOV edx,[ebp+8]
+	SUB edx,16
+	WriteSDecDword [edx]
+
+;END
+	POP edi
+	POP esi
+	POP ebx
+	ADD esp,80
+	POP ebp
+	RET
+_main ENDP
+end _main

@@ -1,0 +1,230 @@
+	.386
+	.model flat, stdcall  ; 32 bit memory model
+	option casemap :none  ; case sensitive
+	include \masm32\include\io32.inc 
+.data
+	_mstr1 byte "input x : ",0
+.code
+
+;BEGIN
+_jiecheng PROC
+	PUSH ebp
+	MOV ebp,esp
+	MOV [esp+8],ebp
+	SUB esp,36
+	PUSH ebx
+	PUSH esi
+	PUSH edi
+
+;BEC i !t1
+	MOV eax,[ebp+8]
+	ADD eax,16
+	ADD eax,[eax]
+	SUB eax,0
+	MOV eax,[eax]
+	MOV edx,ebp
+	SUB edx,4
+	MOV [edx],eax
+
+;BEC 1 !t2
+	MOV eax,1
+	MOV edx,ebp
+	SUB edx,8
+	MOV [edx],eax
+
+;CMP !t1 !t2
+	MOV eax,[ebp-4]
+	MOV edx,[ebp-8]
+	CMP eax,edx
+
+;JWNT  <=
+	JA @label1
+
+;BEC 1 !t3
+	MOV eax,1
+	MOV edx,ebp
+	SUB edx,12
+	MOV [edx],eax
+
+;BEC !t3 jiecheng
+	MOV eax,[ebp-12]
+	MOV edx,[ebp+8]
+	ADD edx,16
+	ADD edx,[edx]
+	ADD edx,4
+	MOV [edx],eax
+
+;JMP
+	JMP  @label2
+
+;LABEL
+@label1:
+
+;BEC i !t4
+	MOV eax,[ebp+8]
+	ADD eax,16
+	ADD eax,[eax]
+	SUB eax,0
+	MOV eax,[eax]
+	MOV edx,ebp
+	SUB edx,16
+	MOV [edx],eax
+
+;PUSH 
+	SUB esp,4
+
+;BEC i !t5
+	MOV eax,[ebp+8]
+	ADD eax,16
+	ADD eax,[eax]
+	SUB eax,0
+	MOV eax,[eax]
+	MOV edx,ebp
+	SUB edx,20
+	MOV [edx],eax
+
+;BEC 1 !t6
+	MOV eax,1
+	MOV edx,ebp
+	SUB edx,24
+	MOV [edx],eax
+
+;CALC  1
+	MOV eax,[ebp-20]
+	MOV edx,[ebp-24]
+	SUB eax,edx
+	MOV edx,ebp
+	SUB edx,28
+	MOV [edx],eax
+
+;PUSH !t7
+	MOV eax,[ebp-28]
+	PUSH eax
+
+;PUSH 4
+	MOV eax,4
+	PUSH eax
+
+;CALL jiecheng
+	MOV eax,[ebp+12]
+	PUSH eax
+	SUB esp,4
+	CALL _jiecheng
+	ADD esp,8
+	MOV eax,[esp]
+	ADD eax,4
+	ADD esp,eax
+
+;POP !t8
+	POP eax
+	MOV edx,ebp
+	SUB edx,32
+	MOV [edx],eax
+
+;CALC  2
+	MOV eax,[ebp-16]
+	MOV edx,[ebp-32]
+	IMUL edx
+	MOV edx,ebp
+	SUB edx,36
+	MOV [edx],eax
+
+;BEC !t9 jiecheng
+	MOV eax,[ebp-36]
+	MOV edx,[ebp+8]
+	ADD edx,16
+	ADD edx,[edx]
+	ADD edx,4
+	MOV [edx],eax
+
+;LABEL
+@label2:
+
+;END
+	POP edi
+	POP esi
+	POP ebx
+	ADD esp,36
+	POP ebp
+	RET
+_jiecheng ENDP
+
+;BEGIN
+_main PROC
+	PUSH ebp
+	MOV ebp,esp
+	MOV [esp+8],ebp
+	SUB esp,16
+	PUSH ebx
+	PUSH esi
+	PUSH edi
+
+;WRITE
+	WriteString _mstr1
+
+;READ x
+	MOV edx,[ebp+8]
+	SUB edx,4
+	ReadSDecDword [edx]
+
+;PUSH 
+	SUB esp,4
+
+;BEC x !t1
+	MOV eax,[ebp+8]
+	MOV eax,[eax-4]
+	MOV edx,ebp
+	SUB edx,8
+	MOV [edx],eax
+
+;PUSH !t1
+	MOV eax,[ebp-8]
+	PUSH eax
+
+;PUSH 4
+	MOV eax,4
+	PUSH eax
+
+;CALL jiecheng
+	MOV eax,[ebp+8]
+	PUSH eax
+	SUB esp,4
+	CALL _jiecheng
+	ADD esp,8
+	MOV eax,[esp]
+	ADD eax,4
+	ADD esp,eax
+
+;POP !t2
+	POP eax
+	MOV edx,ebp
+	SUB edx,12
+	MOV [edx],eax
+
+;BEC !t2 x
+	MOV eax,[ebp-12]
+	MOV edx,[ebp+8]
+	SUB edx,4
+	MOV [edx],eax
+
+;BEC x !t3
+	MOV eax,[ebp+8]
+	MOV eax,[eax-4]
+	MOV edx,ebp
+	SUB edx,16
+	MOV [edx],eax
+
+;WRITE
+	MOV edx,ebp
+	SUB edx,16
+	WriteSDecDword [edx]
+
+;END
+	POP edi
+	POP esi
+	POP ebx
+	ADD esp,16
+	POP ebp
+	RET
+_main ENDP
+end _main

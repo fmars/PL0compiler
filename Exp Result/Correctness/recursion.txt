@@ -1,0 +1,18 @@
+var x:integer;
+
+function jiecheng(i:integer):integer;
+begin
+	if i<=1 then
+		jiecheng:=1
+	else
+	begin
+		jiecheng:=i*jiecheng(i-1)
+	end
+end;
+
+begin
+	write("input x : ");
+	read(x);
+	x:=jiecheng(x);
+	write(x)
+end.

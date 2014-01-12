@@ -1,0 +1,43 @@
+var x,y,g,m:integer;
+    arr:array[10]of integer;
+    i:integer;
+    a,b:integer;
+function mod(var fArg1,fArg2:integer):integer;
+	procedure swap(var fArg1,fArg2:integer);
+	  var temp:integer;
+	  begin
+	    temp:=fArg1;
+	    fArg1:=fArg2;
+	    fArg2:=temp
+	  end;
+  begin
+  	swap(fArg1,fArg2);
+  	write("swap");
+  	write(fArg1);
+  	write(fArg2);
+  	swap(fArg1,fArg2);
+  	write("swap");
+  	write(fArg1);
+  	write(fArg2);
+    fArg1:=fArg1-fArg1/fArg2*fArg2;
+    mod:=fArg1
+  end;
+begin
+  for i:=3 downto 1 do
+  begin
+   write("input x: ");
+   read(x);
+   write("input y: ");
+   read(y);    
+   x:=mod(x,y);
+   write("x mod y = ",x);
+   write("choice 1 2 3: ");
+   read(g);
+   case g of
+        1: write("good ");
+        2: write("better ");
+        3,4: write("best ")
+   end
+   
+  end
+end.

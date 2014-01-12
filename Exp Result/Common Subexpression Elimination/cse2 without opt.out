@@ -1,0 +1,191 @@
+	.386
+	.model flat, stdcall  ; 32 bit memory model
+	option casemap :none  ; case sensitive
+	include \masm32\include\io32.inc 
+.data
+	_mstr1 byte "z=",0
+	_mstr2 byte "t=",0
+.code
+
+;BEGIN
+_main PROC
+	PUSH ebp
+	MOV ebp,esp
+	MOV [esp+8],ebp
+	SUB esp,80
+	PUSH ebx
+	PUSH esi
+	PUSH edi
+
+;READ x
+	MOV edx,[ebp+8]
+	SUB edx,4
+	ReadSDecDword [edx]
+
+;READ y
+	MOV edx,[ebp+8]
+	SUB edx,8
+	ReadSDecDword [edx]
+
+;BEC x !t1
+	MOV eax,[ebp+8]
+	MOV eax,[eax-4]
+	MOV edx,ebp
+	SUB edx,20
+	MOV [edx],eax
+
+;BEC y !t2
+	MOV eax,[ebp+8]
+	MOV eax,[eax-8]
+	MOV edx,ebp
+	SUB edx,24
+	MOV [edx],eax
+
+;CALC  0
+	MOV eax,[ebp-20]
+	MOV edx,[ebp-24]
+	ADD eax,edx
+	MOV edx,ebp
+	SUB edx,28
+	MOV [edx],eax
+
+;BEC !t3 z
+	MOV eax,[ebp-28]
+	MOV edx,[ebp+8]
+	SUB edx,12
+	MOV [edx],eax
+
+;BEC x !t4
+	MOV eax,[ebp+8]
+	MOV eax,[eax-4]
+	MOV edx,ebp
+	SUB edx,32
+	MOV [edx],eax
+
+;BEC y !t5
+	MOV eax,[ebp+8]
+	MOV eax,[eax-8]
+	MOV edx,ebp
+	SUB edx,36
+	MOV [edx],eax
+
+;CALC  0
+	MOV eax,[ebp-32]
+	MOV edx,[ebp-36]
+	ADD eax,edx
+	MOV edx,ebp
+	SUB edx,40
+	MOV [edx],eax
+
+;BEC !t6 t
+	MOV eax,[ebp-40]
+	MOV edx,[ebp+8]
+	SUB edx,16
+	MOV [edx],eax
+
+;BEC z !t7
+	MOV eax,[ebp+8]
+	MOV eax,[eax-12]
+	MOV edx,ebp
+	SUB edx,44
+	MOV [edx],eax
+
+;BEC x !t8
+	MOV eax,[ebp+8]
+	MOV eax,[eax-4]
+	MOV edx,ebp
+	SUB edx,48
+	MOV [edx],eax
+
+;BEC y !t9
+	MOV eax,[ebp+8]
+	MOV eax,[eax-8]
+	MOV edx,ebp
+	SUB edx,52
+	MOV [edx],eax
+
+;CALC  2
+	MOV eax,[ebp-48]
+	MOV edx,[ebp-52]
+	IMUL edx
+	MOV edx,ebp
+	SUB edx,56
+	MOV [edx],eax
+
+;CALC  0
+	MOV eax,[ebp-44]
+	MOV edx,[ebp-56]
+	ADD eax,edx
+	MOV edx,ebp
+	SUB edx,60
+	MOV [edx],eax
+
+;BEC !t11 z
+	MOV eax,[ebp-60]
+	MOV edx,[ebp+8]
+	SUB edx,12
+	MOV [edx],eax
+
+;BEC x !t12
+	MOV eax,[ebp+8]
+	MOV eax,[eax-4]
+	MOV edx,ebp
+	SUB edx,64
+	MOV [edx],eax
+
+;BEC y !t13
+	MOV eax,[ebp+8]
+	MOV eax,[eax-8]
+	MOV edx,ebp
+	SUB edx,68
+	MOV [edx],eax
+
+;CALC  2
+	MOV eax,[ebp-64]
+	MOV edx,[ebp-68]
+	IMUL edx
+	MOV edx,ebp
+	SUB edx,72
+	MOV [edx],eax
+
+;BEC !t14 t
+	MOV eax,[ebp-72]
+	MOV edx,[ebp+8]
+	SUB edx,16
+	MOV [edx],eax
+
+;BEC z !t15
+	MOV eax,[ebp+8]
+	MOV eax,[eax-12]
+	MOV edx,ebp
+	SUB edx,76
+	MOV [edx],eax
+
+;WRITE
+	WriteString _mstr1
+	MOV edx,ebp
+	SUB edx,76
+	WriteSDecDword [edx]
+
+;BEC t !t16
+	MOV eax,[ebp+8]
+	MOV eax,[eax-16]
+	MOV edx,ebp
+	SUB edx,80
+	MOV [edx],eax
+
+;WRITE
+	WriteString _mstr2
+	MOV edx,ebp
+	SUB edx,80
+	WriteSDecDword [edx]
+
+;END
+	POP edi
+	POP esi
+	POP ebx
+	ADD esp,80
+	POP ebp
+	RET
+_main ENDP
+end _main

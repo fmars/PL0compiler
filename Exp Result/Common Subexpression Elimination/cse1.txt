@@ -1,0 +1,19 @@
+var x,y,t:integer;
+procedure p( a:integer);
+begin 
+ a:=1;
+end;
+begin
+ read(x,y);
+ t:=x;
+ x:=y;
+ y:=t;
+ write("x=",x);
+ write("y=",y);
+
+ y:=x+y;
+ y:=x+y+3;
+ x:=3;
+ write("x=",x);
+ write("y=",y);
+end.

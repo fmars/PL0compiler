@@ -1,0 +1,11 @@
+var x,y,z,t:integer;
+begin
+  read(x);
+  read(y);
+  z:=x+y;
+  t:=x+y;
+  z:=z+x*y;
+  t:=x*y;
+  write("z=",z);
+  write("t=",t);
+end.
